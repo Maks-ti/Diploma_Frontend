@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+
+    <!-- CSS Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- JavaScript Bootstrap и Popper.js (необходим для некоторых компонентов, например, всплывающих подсказок) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- import echarts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+    <button onclick="sendMessage()">Send Message</button>
+    <div id="messages"></div>
+
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist"></ul>
+        <div class="tab-content" id="myTabContent"></div>
+    </div>
+
+    <script src="process_message.js"></script>
+    <script>
+        var socket = new WebSocket("ws://localhost:8181");
+        var messagesDiv = document.getElementById("messages");
+
+        socket.onopen = function(e) {
+            console.log("Connection established");
+        };
+
+        socket.onmessage = function(event) {
+            console.log(`Data received from server: ${event.data}`);
+            // messagesDiv.innerHTML += `<p>${event.data}</p>`;
+
+            // Преобразуем строку JSON в объект JavaScript
+            var messageObject = JSON.parse(event.data);
+            // Теперь мы можем передать этот объект в функцию handleMessage
+            handleMessage(messageObject);
+        };
+
+        socket.onclose = function(event) {
+            if (event.wasClean) {
+                console.log(`Connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+            } else {
+                console.log('Connection died');
+            }
+        };
+
+        socket.onerror = function(error) {
+            console.log(`[Error] ${error.message}`);
+        };
+
+        function sendMessage() {
+            var message = prompt("Enter a message to send", "Hello, World!");
+            if (message) {
+                socket.send(message);
+            }
+        }
+    </script>
+</body>
+</html>
