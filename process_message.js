@@ -134,8 +134,8 @@ function updateGraph(managerId, command){
         case 'AddChild':
             edges.push(
             {
-                source:
-                target:
+                source: command.NodeId,
+                target: command.Value.Id
                 
             }
             );
@@ -172,6 +172,8 @@ function updateGraph(managerId, command){
             ]
         }
     );
+
+    console.log(chart);
 
     return;
 }
