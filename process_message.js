@@ -100,6 +100,7 @@ function updateGraph(managerId, command){
     let edges = tabEdges.get(managerId);
 
     // обрабатываем пришедшую команду
+    let index = -1;
     switch(command.CommandName){
         case 'Create':
             nodes.push(
@@ -107,51 +108,108 @@ function updateGraph(managerId, command){
                 id: `${command.NodeId}`,
                 name: command.Value.Name,
                 fixed: false,
-                symbolSize: command.Value.Name ? command.Value.Name : 20,
+                symbol: 'circle',
+                symbolSize: command.Value.Size ? command.Value.Size : 20,
                 itemStyle: { color: command.Value.Color ? command.Value.Color : '#f00' },
-                label: { show: true }
+                label: { 
+                    show: true,
+                    formatter: (params) => {
+                        return `${params.data.name}\nselected: ${params.data.selected}\nvisited: ${params.data.visited}\nvalue: ${params.data.node_value}`;
+                    },
+                    color: '#000', // Чёрный цвет текста
+                    fontSize: 18 // Устанавливает размер текста
+                 },
+                // my parametres
+                selected: command.Value.Selected,
+                visited: command.Value.Visited,
+                node_value: command.Value.Value
             }
             );
             break;
         case 'SetName':
-
+            index = nodes.findIndex(node => node.id === command.NodeId);
+            if (index !== -1){
+                // update node
+                nodes[index].name = command.Value;
+            } 
             break;
         case 'SetColor':
-
+            index = nodes.findIndex(node => node.id === command.NodeId);
+            if (index !== -1){
+                // update node
+                nodes[index].itemStyle = { color: command.Value ? command.Value : '#f00' }
+            } 
             break;
         case 'SetSize':
-
+            index = nodes.findIndex(node => node.id === command.NodeId);
+            if (index !== -1){
+                // update node
+                nodes[index].symbolSize = (command.Value ? command.Value : 20)
+            }
             break;
         case 'SetSelected':
-
+            index = nodes.findIndex(node => node.id === command.NodeId);
+            if (index !== -1){
+                // update node
+                nodes[index].selected = command.Value;
+            }
             break;
         case 'SetVisited':
-
+            index = nodes.findIndex(node => node.id === command.NodeId);
+            if (index !== -1){
+                // update node
+                nodes[index].visited = command.Value;
+            }
             break;
         case 'SetValue':
-
+            index = nodes.findIndex(node => node.id === command.NodeId);
+            if (index !== -1){
+                // update node
+                nodes[index].node_value = command.Value;
+            }
             break;
         case 'AddChild':
             edges.push(
             {
-                source: command.NodeId,
-                target: command.Value.Id
-                
+                id: command.Value.Id,
+                source: command.Value.NodeFromId,
+                target: command.Value.NodeToId,
+                parametres: command.Value.Parameters,
+                label: {
+                    show: true,
+                    formatter: (params) => {
+                        let obj = params.data.parametres;
+                        let str = Object.keys(obj).map(key => `${key}: ${obj[key]}`).join('\n');
+                        return str;
+                    },
+                    position: 'middle',
+                    color: '#000', // Чёрный цвет текста
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    rotate: 0, // Поворот текста на 90 градусов для вертикального отображения
+                    fontSize: 18 // Устанавливает размер текста
+                },
+                lineStyle: {
+                    normal: {
+                        width: 5,
+                        color: '#0ff'
+                    }
+                }
             }
             );
             break;
         case 'DeleteChild':
-
+            edges = edges.filter(edge => !(edge.id === command.Value)); // удаляем ребро с указанным Id
             break;
         case 'Delete':
-
+            nodes = nodes.filter(node => !(node.id === command.Value)); // удаляем узел с указанным Id
             break;
         default:
-
             break;
     } // swithc - end
 
     console.log(nodes);
+    console.log(edges);
 
     chart.setOption(
         {
