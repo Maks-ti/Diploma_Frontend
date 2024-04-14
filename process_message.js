@@ -1,7 +1,7 @@
 
-var tabCharts = new Map();
-var tabNodes = new Map();
-var tabEdges = new Map();
+var tabCharts = new Map(); // str: object
+var tabNodes = new Map(); // str: []
+var tabEdges = new Map(); // str: []
 
 
 function handleMessage(message) {
@@ -105,7 +105,7 @@ function updateGraph(managerId, command){
         case 'Create':
             nodes.push(
             {
-                id: `${command.NodeId}`,
+                id: `${command.ObjId}`,
                 name: command.Value.Name,
                 fixed: false,
                 symbol: 'circle',
@@ -127,42 +127,42 @@ function updateGraph(managerId, command){
             );
             break;
         case 'SetName':
-            index = nodes.findIndex(node => node.id === command.NodeId);
+            index = nodes.findIndex(node => node.id === command.ObjId);
             if (index !== -1){
                 // update node
                 nodes[index].name = command.Value;
             } 
             break;
         case 'SetColor':
-            index = nodes.findIndex(node => node.id === command.NodeId);
+            index = nodes.findIndex(node => node.id === command.ObjId);
             if (index !== -1){
                 // update node
                 nodes[index].itemStyle = { color: command.Value ? command.Value : '#f00' }
             } 
             break;
         case 'SetSize':
-            index = nodes.findIndex(node => node.id === command.NodeId);
+            index = nodes.findIndex(node => node.id === command.ObjId);
             if (index !== -1){
                 // update node
                 nodes[index].symbolSize = (command.Value ? command.Value : 20)
             }
             break;
         case 'SetSelected':
-            index = nodes.findIndex(node => node.id === command.NodeId);
+            index = nodes.findIndex(node => node.id === command.ObjId);
             if (index !== -1){
                 // update node
                 nodes[index].selected = command.Value;
             }
             break;
         case 'SetVisited':
-            index = nodes.findIndex(node => node.id === command.NodeId);
+            index = nodes.findIndex(node => node.id === command.ObjId);
             if (index !== -1){
                 // update node
                 nodes[index].visited = command.Value;
             }
             break;
         case 'SetValue':
-            index = nodes.findIndex(node => node.id === command.NodeId);
+            index = nodes.findIndex(node => node.id === command.ObjId);
             if (index !== -1){
                 // update node
                 nodes[index].node_value = command.Value;
@@ -203,6 +203,13 @@ function updateGraph(managerId, command){
             break;
         case 'Delete':
             nodes = nodes.filter(node => !(node.id === command.Value)); // удаляем узел с указанным Id
+            break;
+        case 'SetEdgeParametres':
+            index = edges.findIndex(edge => edge.id === command.ObjId);
+            if (index !== -1){
+                // update edge
+                edges[index].parametres = command.Value;
+            }
             break;
         default:
             break;
