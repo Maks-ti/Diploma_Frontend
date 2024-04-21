@@ -192,10 +192,13 @@ function updateGraph(managerId, command){
                 },
                 lineStyle: {
                     normal: {
+                        curveness: 0.1, // Небольшая кривизна ребра для лучшей визуализации направления
                         width: 5,
-                        color: '#0ff'
+                        color: '#000'
                     }
-                }
+                },
+                symbol: ['none', 'arrow'], // Устанавливаем символы для начала и конца линии ('none' - нет символа, 'arrow' - стрелка)
+                symbolSize: [0, 20] // Размер символов для начала и конца линии (0 - нет символа, 10 - размер стрелки)
             }
             );
             break;
@@ -226,8 +229,8 @@ function updateGraph(managerId, command){
                 type: 'graph',
                 layout: 'force',
                 force: {
-                    repulsion: 200, // Сила отталкивания между узлами
-                    edgeLength: 50, // Длина рёбер
+                    repulsion: 250, // Сила отталкивания между узлами
+                    edgeLength: 60, // Длина рёбер
                     // Другие параметры силы...
                 },
                 symbol: 'circle',
