@@ -1,0 +1,102 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.header__logo {
+    font-weight: bold;
+    font-size: 22px;
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: white;
+    user-select: none;
+    background: linear-gradient(90deg, #8dbeec, #4ae0d4, #08ad2c);
+}
+
+.header__status {
+}
+
+.header__status-button {
+    border: 1px solid #08ad2c;
+    border-radius: 4px;
+    color: white;
+    background: linear-gradient(90deg, #8dbeec, #4ae0d4, #08ad2c);
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.header__status-button:hover,
+.header__status-button:focus {
+    background: linear-gradient(90deg, #6199ce, #29c4b7, #057c1f);
+    outline: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 12px;
+    gap: 4px;
+    max-width: 100%;
+}
+
+.container__tabs {
+    row-gap: 4px;
+    border-bottom: none;
+}
+
+.container__tabs .nav-item {
+    position: relative;
+    list-style: none;
+}
+
+:root {
+    --image-path: url('./assets/tab.svg');
+}
+
+.container__tabs .nav-item::before {
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 50%;
+    transform: translate(50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-image: var(--image-path);
+    background-size: cover;
+}
+
+.container__tabs .nav-link {
+    padding-left: 40px;
+    color: black;
+}
+
+.nav-item {
+    border: 1px solid transparent;
+    border-bottom: 1px solid #29c4b7;
+}
+
+.nav-item:hover .nav-link {    
+    border: 1px solid #057c1f;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
+.container__tabs .active {
+    color: white !important;
+    background: linear-gradient(90deg, #8dbeec, #4ae0d4, #08ad2c);
+}
+
+.nav-item:has(.active) {
+    --image-path: url('./assets/white_tab.svg');
+}
+
+.container__content {
+    height: calc(100vh - 240px);
+}
+
+.container__content .tab-pane {
+    height: 100%;
+}

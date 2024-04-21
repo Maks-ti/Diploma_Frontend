@@ -35,9 +35,10 @@ function createTab(managerId) {
     // добавляем элемент для основы графа
     let main = document.createElement('div');
     main.id = `${managerId}-main`;
-    main.style.width = '700px';
-    main.style.height = '700px';
-    main.style.border = '1px solid #000';
+    main.style.width = 'calc(100vw - 24px)';
+    main.style.height = 'calc(100vh - 240px)';
+    main.style.border = '1px solid #4ae0d4';
+    main.style.borderRadius = '8px';
     content.appendChild(main);
 
     document.getElementById('myTab').appendChild(tab);

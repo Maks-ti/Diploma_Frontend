@@ -8,6 +8,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- JavaScript Bootstrap и Popper.js (необходим для некоторых компонентов, например, всплывающих подсказок) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <link href="./style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
@@ -15,13 +16,19 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 </head>
 <body>
-    <h1>WebSocket Client</h1>
-    <button onclick="sendMessage()">Send Message</button>
+    <header class="header">
+        <div class="header__logo">
+            EyeGraph
+        </div>
+        <div class="header__status">
+            <button class="header__status-button" onclick="sendMessage()">Send Message</button>
+        </div>
+    </header>
     <div id="messages"></div>
 
     <div class="container">
-        <ul class="nav nav-tabs" id="myTab" role="tablist"></ul>
-        <div class="tab-content" id="myTabContent"></div>
+        <ul class="nav nav-tabs container__tabs" id="myTab" role="tablist"></ul>
+        <div class="tab-content container__content" id="myTabContent"></div>
     </div>
 
     <script src="process_message.js"></script>
