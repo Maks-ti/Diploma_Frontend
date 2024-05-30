@@ -111,7 +111,11 @@ function updateGraph(managerId, command){
                 fixed: false,
                 symbol: 'circle',
                 symbolSize: command.Value.Size ? command.Value.Size : 20,
-                itemStyle: { color: command.Value.Color ? command.Value.Color : '#f00' },
+                itemStyle: { 
+                    color: command.Value.Color ? command.Value.Color : '#f00'  // ,
+                    // borderColor: invertColor(command.Value.Color ? command.Value.Color : '#f00'), // Инвертированный цвет
+                    // borderWidth: command.Value.Visited * 3 // Ширина равна значению Visited
+                },
                 label: { 
                     show: true,
                     formatter: (params) => {
@@ -245,4 +249,19 @@ function updateGraph(managerId, command){
     console.log(chart);
 
     return;
+}
+
+function invertColor(hex) {
+    // Удаляем символ '#' для упрощения обработки
+    if (hex.startsWith('#')) {
+        hex = hex.slice(1);
+    }
+    
+    // Переводим каждый символ в числовое представление, инвертируем и переводим обратно в шестнадцатеричный формат
+    let r = (15 - parseInt(hex[0], 16)).toString(16);
+    let g = (15 - parseInt(hex[1], 16)).toString(16);
+    let b = (15 - parseInt(hex[2], 16)).toString(16);
+
+    // Возвращаем результат в форме трёхзначного шестнадцатеричного цвета с символом '#'
+    return '#' + r + g + b;
 }
